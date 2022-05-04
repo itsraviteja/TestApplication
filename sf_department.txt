@@ -1,0 +1,7 @@
+create  table sf_department
+(
+id int primary key identity(1,1),
+name varchar(25),
+departmentname varchar(25)
+)
+

@@ -1,0 +1,13 @@
+CREATE PROCEDURE sp_sf_APP_GetDepartmentDetails
+@ID int 
+AS
+BEGIN
+	SET NOCOUNT ON; 
+
+	SELECT 
+		sd.id as ID,
+		sd.name as Name,
+		sd.departmentname as departmentname
+	FROM sf_department sd WITH(NOLOCK)
+	WHERE sd.id =  @ID 
+END

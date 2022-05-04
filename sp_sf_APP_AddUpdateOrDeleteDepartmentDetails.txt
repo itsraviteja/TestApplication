@@ -1,0 +1,49 @@
+CREATE PROCEDURE sp_sf_APP_AddUpdateOrDeleteDepartmentDetails
+	@id int,
+	@actiontype varchar(1),
+	@name varchar(10),
+	@departmentname varchar(10),
+	
+AS
+BEGIN 
+	 
+	DECLARE @templateseqno int
+	IF(@actiontype is null)
+		BEGIN
+			SET @actiontype ='A'
+			IF EXISTS (SELECT 1 FROM [sf_department] WITH(NOLOCK) WHERE id= @id)
+				SET @actiontype ='U'
+		END
+	
+
+	IF(@actiontype = 'A')
+		BEGIN
+
+			 INSERT INTO sf_department 
+				   (Id	
+				   ,name
+				   ,departmentname
+				   )
+			 VALUES
+				   (@id,
+					@name,
+					@departmentname)
+
+			
+		END
+	IF(@actiontype = 'U')
+		BEGIN
+
+		UPDATE sf_department WITH(ROWLOCK)
+			   SET name = @name
+				  ,departmentname = @departmentname
+			 WHERE id= @id
+
+		
+		END
+	IF(@actiontype = 'D')
+		BEGIN
+					
+			DELETE FROM sf_department WHERE id = @id
+		END		 
+END 
